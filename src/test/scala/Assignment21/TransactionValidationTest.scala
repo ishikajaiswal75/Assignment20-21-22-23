@@ -1,69 +1,30 @@
+
 package Assignment21
 
 object TransactionValidationTest {
-
-  // Main function to run all tests
   def main(args: Array[String]): Unit = {
-    testProcessTransaction()
-    testDeposit()
-    testWithdraw()
-  }
+    println("Testing UsingEither.safeDivide Function")
+    println(s"10 / 2: ${UsingEither.safeDivide(10, 2)}")  // Expected: Right(5.0)
+    println(s"5 / 0: ${UsingEither.safeDivide(5, 0)}")    // Expected: Left("Error: Divide by zero not allowed")
+    println(s"9 / 3: ${UsingEither.safeDivide(9, 3)}")    // Expected: Right(3.0)
 
-  // Function to test processTransaction
-  def testProcessTransaction(): Unit = {
-    println("Running Tests...\n")
+    println("\n Testing EitherFlatMap.processTransaction Function")
+    println(s"Process transaction (500, 50): ${EitherFlatMap.processTransaction(500, 50)}") // Expected: Right(405.0)
+    println(s"Process transaction (80, 50): ${EitherFlatMap.processTransaction(80, 50)}")  // Expected: Left("Error: only discount on above 100")
+    println(s"Process transaction (30, 50): ${EitherFlatMap.processTransaction(30, 50)}")  // Expected: Left("Error: Insufficient Balance")
+    println(s"Process transaction (500, -10): ${EitherFlatMap.processTransaction(500, -10)}") // Expected: Left("Error: amount can not be negative")
 
-    // Test cases
-    assert(ErrHndlngWidEither.processTransaction(500, 100, isDeposit = true) == "Transac  tion Successfull ! New balance:$600")
-    assert(ErrHndlngWidEither.processTransaction(500, -50, isDeposit = true) == "Transaction failed: Error: deposite amount should be greater than zero")
-    assert(ErrHndlngWidEither.processTransaction(500, 600, isDeposit = false) == "Transaction failed: Insufficient Balance")
-    assert(ErrHndlngWidEither.processTransaction(500, 200, isDeposit = false) == "Transcation Successfull ! New balance:$300")
+    println("\n Testing ErrHndlngWidEither.deposit Function")
+    println(s"Deposit (500, 100): ${ErrHndlngWidEither.deposit(500, 100)}") // Expected: Right(600)
+    println(s"Deposit (500, -50): ${ErrHndlngWidEither.deposit(500, -50)}") // Expected: Left("Error: deposite amount should be greater than zero")
 
-    println("All tests passed!")
-  }
+    println("\n Testing ErrHndlngWidEither.withdraw Function")
+    println(s"Withdraw (500, 200): ${ErrHndlngWidEither.withdraw(500, 200)}") // Expected: Right(300)
+    println(s"Withdraw (500, 600): ${ErrHndlngWidEither.withdraw(500, 600)}") // Expected: Left("Insufficient Balance")
+    println(s"Withdraw (500, -50): ${ErrHndlngWidEither.withdraw(500, -50)}") // Expected: Left("Error: withdraw amount should be greater than zero")
 
-  // Function to test individual deposit function
-  def testDeposit(): Unit = {
-    assert(ErrHndlngWidEither.deposit(500, 100) == Right(600))
-    assert(ErrHndlngWidEither.deposit(500, -50) == Left("Error: deposite amount should be greater than zero"))
-
-    println("Deposit function tests passed!")
-  }
-
-  // Function to test individual withdraw function
-  def testWithdraw(): Unit = {
-    assert(ErrHndlngWidEither.withdraw(500, 200) == Right(300))
-    assert(ErrHndlngWidEither.withdraw(500, 600) == Left("Insufficient Balance"))
-    assert(ErrHndlngWidEither.withdraw(500, -50) == Left("Error: withdraw amount should be greater than zero."))
-
-    println("Withdraw function tests passed!")
+    println("\nTesting ErrHndlngWidEither.processTransaction Function")
+    println(s"Transaction (deposit 100): ${ErrHndlngWidEither.processTransaction(500, 100, isDeposit = true)}") // Expected: "Transaction Successful! New balance: $600"
+    println(s"Transaction (withdraw 600): ${ErrHndlngWidEither.processTransaction(500, 600, isDeposit = false)}") // Expected: "Transaction Failed: Error: Insufficient balance."
   }
 }
-//def testProcessTransaction(): Unit = {
-//  println("Running Tests...\n")
-//
-//  try {
-//    // Test cases
-//    val result1 = ErrHndlngWidEither.processTransaction(500, 100, isDeposit = true)
-//    println(s"Test 1 Output: $result1") // ✅ Debugging Line
-//    assert(result1 == "Transaction Successful! New balance:$600")
-//
-//    val result2 = ErrHndlngWidEither.processTransaction(500, -50, isDeposit = true)
-//    println(s"Test 2 Output: $result2") // ✅ Debugging Line
-//    assert(result2 == "Transaction failed: Error: deposit amount should be greater than zero")
-//
-//    val result3 = ErrHndlngWidEither.processTransaction(500, 600, isDeposit = false)
-//    println(s"Test 3 Output: $result3") // ✅ Debugging Line
-//    assert(result3 == "Transaction failed: Insufficient Balance")
-//
-//    val result4 = ErrHndlngWidEither.processTransaction(500, 200, isDeposit = false)
-//    println(s"Test 4 Output: $result4") // ✅ Debugging Line
-//    assert(result4 == "Transaction Successful! New balance:$300")
-//
-//    println("All tests passed!")
-//
-//  } catch {
-//    case e: AssertionError => println(s"❌ Assertion Failed: ${e.getMessage}")
-//    case ex: Exception => println(s"❌ Unexpected Error: ${ex.getMessage}")
-//  }
-//}

@@ -35,10 +35,6 @@ object ErrHndlngWidEither {
 
 // Main function to test our application
 def main(args: Array[String]): Unit = {
-//  println(processTransaction(500, 100, isDeposit = true))   // Deposit Success
-//  println(processTransaction(500, -50, isDeposit = true))   // Invalid Deposit Amount
-//  println(processTransaction(500, 600, isDeposit = false))  // Insufficient Balance
-//  println(processTransaction(500, 200, isDeposit = false))  // Withdrawal Success
 
   println(deposit(500, 100)) // Output: Right(600)
   println(deposit(500, -50)) // Output: Left("Error: Deposit amount should be greater than zero.")
